@@ -6,8 +6,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import static java.lang.Thread.currentThread;
-import static java.lang.Thread.sleep;
+
 
 public class ThreadTraining {
 
@@ -15,18 +14,26 @@ public class ThreadTraining {
 
     private int i = 1;
 
+    @SuppressWarnings("checkstyle:ConstantName")
     private static final Semaphore semaphore = new Semaphore(2);
 
 
+    @SuppressWarnings("checkstyle:MagicNumber")
     public void threadTraining() {
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 10, 10000, TimeUnit.MILLISECONDS, new LinkedBlockingDeque<>(), new ThreadPoolExecutor.DiscardOldestPolicy());
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+                5,
+                10,
+                10000,
+                TimeUnit.MILLISECONDS,
+                new LinkedBlockingDeque<>(),
+                new ThreadPoolExecutor.DiscardOldestPolicy());
         Future future = threadPoolExecutor.submit(() -> {
             try {
                 count1(i);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                System.out.println("计数器1结束 线程：" + currentThread().getName() + "关闭");
+                System.out.println("计数器1结束 线程：" + Thread.currentThread().getName() + "关闭");
                 threadPoolExecutor.shutdown();
             }
 
@@ -37,7 +44,7 @@ public class ThreadTraining {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                System.out.println("计数器2结束 线程：" + currentThread().getName() + "关闭");
+                System.out.println("计数器2结束 线程：" + Thread.currentThread().getName() + "关闭");
                 threadPoolExecutor.shutdown();
             }
 
@@ -51,8 +58,8 @@ public class ThreadTraining {
             e.printStackTrace();
         }
 
-        for (int i = 0; i < 100; i++) {
-            System.out.println("计数器3打点：" + i + ",当前线程：" + currentThread().getName());
+        for (int k = 0; k < 100; k++) {
+            System.out.println("计数器3打点：" + k + ",当前线程：" + Thread.currentThread().getName());
         }
     }
 
@@ -69,22 +76,29 @@ public class ThreadTraining {
             e.printStackTrace();
         }
         for (int k = 0; k < 1000; k++) {
-            System.out.println("计数器3打点：" + k + ",当前线程：" + currentThread().getName());
+            System.out.println("计数器3打点：" + k + ",当前线程：" + Thread.currentThread().getName());
         }
     }
 
 
+    @SuppressWarnings("checkstyle:MagicNumber")
     public void threadTraining3() {
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 10, 10000, TimeUnit.MILLISECONDS, new LinkedBlockingDeque<>(), new ThreadPoolExecutor.DiscardOldestPolicy());
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+                5,
+                10,
+                10000,
+                TimeUnit.MILLISECONDS,
+                new LinkedBlockingDeque<>(),
+                new ThreadPoolExecutor.DiscardOldestPolicy());
         for (int j = 0; j < 10; j++) {
             threadPoolExecutor.execute(() -> {
                 try {
-                    System.out.println("线程名：" + currentThread().getName() + "开始");
-                    sleep(1000);
+                    System.out.println("线程名：" + Thread.currentThread().getName() + "开始");
+                    TimeUnit.MILLISECONDS.sleep(1000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
-                    System.out.println("线程结束 线程：" + currentThread().getName() + "关闭");
+                    System.out.println("线程结束 线程：" + Thread.currentThread().getName() + "关闭");
                     threadPoolExecutor.shutdown();
                 }
             });
@@ -92,17 +106,17 @@ public class ThreadTraining {
     }
 
 
-    private void count1(int i) {
-        while (i < 10) {
-            System.out.println("计数器1打点：" + i + "当前线程：" + currentThread().getName());
-            i++;
+    private void count1(int j) {
+        while (j < 10) {
+            System.out.println("计数器1打点：" + j + "当前线程：" + Thread.currentThread().getName());
+            j++;
         }
     }
 
-    private synchronized void count2(int i) {
-        while (i < 10) {
-            System.out.println("计数器2打点：" + i + "当前线程：" + currentThread().getName());
-            i++;
+    private synchronized void count2(int j) {
+        while (j < 10) {
+            System.out.println("计数器2打点：" + j + "当前线程：" + Thread.currentThread().getName());
+            j++;
         }
     }
 

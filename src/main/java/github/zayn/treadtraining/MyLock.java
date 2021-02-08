@@ -3,7 +3,7 @@ package github.zayn.treadtraining;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MyLock {
-    public static AtomicInteger i = new AtomicInteger();
+    private static AtomicInteger i = new AtomicInteger();
 
     @SuppressWarnings({"checkstyle:EmptyBlock", "checkstyle:EmptyForIteratorPad"})
     public static void main(String[] args) {

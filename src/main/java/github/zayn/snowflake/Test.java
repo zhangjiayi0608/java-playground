@@ -57,6 +57,7 @@ public class Test {
      *
      * @return SnowflakeId
      */
+    @SuppressWarnings("checkstyle:RightCurly")
     public synchronized long nextId() {
         //蓝色代码注释开始
         long timestamp = timeGen();
@@ -66,7 +67,6 @@ public class Test {
                     String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds", lastTimestamp - timestamp));
         }
         //蓝色代码注释结束
-        //红色代码注释开始
         //如果是同一时间生成的，则进行秒内序列
         if (lastTimestamp == timestamp) {
             sequence = (sequence + 1) & sequenceMask;
@@ -77,8 +77,6 @@ public class Test {
             }
             //时间戳改变，秒内序列重置
         }
-        //红色代码注释结束
-        //绿色代码注释开始
         else {
             sequence = 0L;
         }
@@ -99,6 +97,7 @@ public class Test {
      * @param lastTimestamp 上次生成ID的时间截
      * @return 当前时间戳
      */
+    @SuppressWarnings("checkstyle:HiddenField")
     protected long tilNextMillis(long lastTimestamp) {
         long timestamp = timeGen();
         while (timestamp <= lastTimestamp) {

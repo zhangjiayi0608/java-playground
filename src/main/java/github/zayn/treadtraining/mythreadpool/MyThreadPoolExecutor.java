@@ -16,11 +16,10 @@ public class MyThreadPoolExecutor implements Executor {
     private RejectPolicy rejectPolicy;
 
 
-    private AtomicInteger sequence = new AtomicInteger(0);
-
-
-    //记录线程数
+    //正在运行线程数
     private AtomicInteger runningCount = new AtomicInteger(0);
+
+    private AtomicInteger sequence = new AtomicInteger(0);
 
     public MyThreadPoolExecutor(String name, int coreSize, int maxSize, BlockingQueue blockingQueue, RejectPolicy rejectPolicy) {
         this.name = name;
@@ -51,14 +50,15 @@ public class MyThreadPoolExecutor implements Executor {
     }
 
     private boolean addWorker(Runnable newTask, boolean isCore) {
-        for (; ; ) {
+        //自旋
+        while (true) {
             int max = isCore ? coreSize : maxSize;
             int count = runningCount.get();
-            if (count > max) {
+            if (count >= max) {
                 return false;
             }
             if (runningCount.compareAndSet(count, count + 1)) {
-                String threadName = (isCore ? "_core" : "_max") + name + sequence.incrementAndGet();
+                String threadName = (isCore ? "_core" : "_max") + name + " sequence:" + sequence.incrementAndGet();
                 new Thread(() -> {
                     System.out.println("threadName :" + Thread.currentThread().getName());
                     Runnable task = newTask;
@@ -80,24 +80,25 @@ public class MyThreadPoolExecutor implements Executor {
         try {
             return blockingQueue.take();
         } catch (InterruptedException e) {
-            e.printStackTrace();
             runningCount.decrementAndGet();
             return null;
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Executor myThreadPoolExecutor = new MyThreadPoolExecutor("test", 5, 10, new ArrayBlockingQueue(10), new DiscardRejectPolicy());
         AtomicInteger num = new AtomicInteger(0);
         for (int i = 0; i < 100; i++) {
             myThreadPoolExecutor.execute(() -> {
                 try {
-                    Thread.sleep(100);
-                    System.out.println("running:" + System.currentTimeMillis() + ":" + num.incrementAndGet());
+                    Thread.sleep(20);
+                    System.out.println(
+                            "running:" + System.currentTimeMillis() + ":" + num.incrementAndGet() + ";活跃线程为：" + Thread.currentThread().getName());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             });
+            Thread.sleep(1);
         }
     }
 

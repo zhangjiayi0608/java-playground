@@ -22,12 +22,12 @@ public class CopyFile {
     public void copyFileByChannel(File source, File target) throws IOException {
         FileChannel sourceChannel = new FileInputStream(source).getChannel();
         FileChannel targetChannel = new FileOutputStream(target).getChannel();
-        for (long count = sourceChannel.size(); count > 0; ) {
+        long count = sourceChannel.size();
+        while (count > 0) {
             long transferred = sourceChannel.transferTo(sourceChannel.position(), count, targetChannel);
             sourceChannel.position(sourceChannel.position() + transferred);
             count -= transferred;
         }
-
     }
 
     public static void main(String[] args) throws IOException {

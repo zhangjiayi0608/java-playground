@@ -44,12 +44,13 @@ public class ReflectDemo {
 
     @SuppressWarnings("checkstyle:MagicNumber")
     public static void main(String[] args) {
-        What zjy = new What();
-        zjy.setName("zhangjiayi");
-        zjy.setAge(25);
-        zjy.setHeight(186);
-        zjy.setWeight(95);
-        Map<String, String> stringStringMap = buildDimen(zjy);
-        System.out.println(stringStringMap);
+
+        How zjy2 = new How();
+        Base base = new Base();
+        base.setName("zhangjiayi1");
+        zjy2.setAge(18);
+        zjy2.setBase(base);
+        Field[] declaredFields = zjy2.getClass().getDeclaredFields();
+        System.out.println(declaredFields);
     }
 }

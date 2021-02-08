@@ -1,6 +1,7 @@
 package github.zayn.reflect;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @ClassName Base
@@ -8,7 +9,8 @@ import lombok.Data;
  * @Author zhangjiayi07
  * @Date 2020/12/24 下午3:13
  **/
-@Data
+@Getter
+@Setter
 public class Base {
     private String name;
 }
