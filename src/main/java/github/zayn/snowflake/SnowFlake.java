@@ -3,7 +3,7 @@ package github.zayn.snowflake;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Test {
+public class SnowFlake {
     /**
      * 开始时间截 (1970-01-01)
      */
@@ -29,7 +29,7 @@ public class Test {
      */
     private final long workerIdShift = sequenceBits;
     /**
-     * 生成序列的掩码，这里为最大是32767 (1111111111111=32767)
+     * 生成序列的掩码，这里为最大是32767 (111111111111111=32767)
      */
     private final long sequenceMask = ~(-1L << sequenceBits);
     /**
@@ -45,7 +45,7 @@ public class Test {
      */
     private long lastTimestamp = -1L;
 
-    public Test(long workerId) {
+    public SnowFlake(long workerId) {
         if (workerId > maxWorkerId || workerId < 0) {
             throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
         }
@@ -57,7 +57,6 @@ public class Test {
      *
      * @return SnowflakeId
      */
-    @SuppressWarnings("checkstyle:RightCurly")
     public synchronized long nextId() {
         //蓝色代码注释开始
         long timestamp = timeGen();
@@ -73,11 +72,10 @@ public class Test {
             //秒内序列溢出
             if (sequence == 0) {
                 //阻塞到下一个秒,获得新的秒值
-                timestamp = tilNextMillis(lastTimestamp);
+                timestamp = tilNextMillis();
             }
             //时间戳改变，秒内序列重置
-        }
-        else {
+        } else {
             sequence = 0L;
         }
         //绿色代码注释结束
@@ -94,11 +92,9 @@ public class Test {
     /**
      * 阻塞到下一个秒，直到获得新的时间戳
      *
-     * @param lastTimestamp 上次生成ID的时间截
      * @return 当前时间戳
      */
-    @SuppressWarnings("checkstyle:HiddenField")
-    protected long tilNextMillis(long lastTimestamp) {
+    protected long tilNextMillis() {
         long timestamp = timeGen();
         while (timestamp <= lastTimestamp) {
             timestamp = timeGen();
@@ -121,7 +117,7 @@ public class Test {
     }
 
     public static void main(String[] args) {
-        Test idWorker = new Test(0);
+        SnowFlake idWorker = new SnowFlake(0);
         for (int i = 0; i < 10; i++) {
             long id = idWorker.nextId();
             System.out.println(id);
