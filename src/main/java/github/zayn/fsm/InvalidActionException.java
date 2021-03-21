@@ -7,5 +7,4 @@ package github.zayn.fsm;
  * @Date 2021/3/16 下午3:27
  **/
 public class InvalidActionException extends RuntimeException {
-    //test
 }

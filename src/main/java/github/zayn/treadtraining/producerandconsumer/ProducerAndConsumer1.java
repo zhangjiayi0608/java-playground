@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class ProducerAndConsumer1 {
     private static final Integer FULL = 10;
+    @SuppressWarnings("checkstyle:StaticVariableName")
     private static String LOCK = "lock";
     private static Integer count = 0;
 
@@ -29,7 +30,8 @@ public class ProducerAndConsumer1 {
                     }
                     warehouse.add("货物" + i);
                     count++;
-                    System.out.println(Thread.currentThread().getName() + "生产者生产，目前总共有" + count + "，货柜有：" + (warehouse.isEmpty() ? null : warehouse.toString()));
+                    System.out.println(Thread.currentThread()
+                            .getName() + "生产者生产，目前总共有" + count + "，货柜有：" + (warehouse.isEmpty() ? null : warehouse.toString()));
                     LOCK.notifyAll();
 
                 }
@@ -47,6 +49,7 @@ public class ProducerAndConsumer1 {
                         try {
                             LOCK.wait();
                         } catch (Exception e) {
+                            //不处理
                         }
                     }
                     warehouse.get(0);

@@ -6,7 +6,7 @@ import java.util.Objects;
 
 /**
  * @ClassName EntranceMachine
- * @DESCRIPTION 状态机实体类
+ * @DESCRIPTION 状态模式状态机
  * @Author zhangjiayi07
  * @Date 2021/3/16 下午3:05
  **/
