@@ -1,6 +1,6 @@
 # Spring源码心得
 
-##容器的启动流程，beanfactory和applicationcontext的区别 
+##容器的启动流程，BeanFactory和ApplicationContext的区别 
 1. ContextLoaderListener 实现了 ServletContextListener 接口，  
 故在web容器启动的时候，ContextLoaderListener 会监听到这个事件。  
 contextInitialized(event) 方法被调用。(观察者模式，tomcat的启动监听器是ServletContextListener)。  
