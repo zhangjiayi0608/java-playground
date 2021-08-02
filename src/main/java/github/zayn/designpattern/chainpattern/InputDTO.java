@@ -1,5 +1,7 @@
 package github.zayn.designpattern.chainpattern;
 
+import java.util.Set;
+
 import lombok.Data;
 
 /**
@@ -11,4 +13,5 @@ import lombok.Data;
 @Data
 public class InputDTO {
     private long count;
+    private Set<String> promotionTypes;
 }

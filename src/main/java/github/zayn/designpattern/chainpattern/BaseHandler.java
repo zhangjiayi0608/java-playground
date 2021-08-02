@@ -10,4 +10,6 @@ import org.springframework.core.Ordered;
  **/
 public interface BaseHandler extends Ordered {
     long calcPrice(InputDTO inputDTO);
+
+    boolean check(InputDTO inputDTO);
 }

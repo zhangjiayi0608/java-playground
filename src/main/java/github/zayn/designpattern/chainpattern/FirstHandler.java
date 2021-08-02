@@ -18,6 +18,11 @@ public class FirstHandler implements BaseHandler {
     }
 
     @Override
+    public boolean check(InputDTO inputDTO) {
+        return inputDTO.getPromotionTypes().contains("FIRST");
+    }
+
+    @Override
     public int getOrder() {
         return 1;
     }

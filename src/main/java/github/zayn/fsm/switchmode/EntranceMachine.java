@@ -1,8 +1,8 @@
 package github.zayn.fsm.switchmode;
 
-import github.zayn.fsm.InvalidActionException;
-
 import java.util.Objects;
+
+import github.zayn.fsm.InvalidActionException;
 
 /**
  * @ClassName EntranceMachine

@@ -1,11 +1,11 @@
 package github.zayn.fsm.collectionstatemode;
 
-import github.zayn.fsm.InvalidActionException;
-import lombok.Data;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import github.zayn.fsm.InvalidActionException;
+import lombok.Data;
 
 
 /**

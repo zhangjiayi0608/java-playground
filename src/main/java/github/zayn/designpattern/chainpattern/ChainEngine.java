@@ -1,8 +1,6 @@
 package github.zayn.designpattern.chainpattern;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,12 +11,10 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class ChainEngine {
+    @Autowired
+    HandlerChain handlerChain;
 
     public long execute(InputDTO inputDTO) {
-        List<BaseHandler> baseHandlerList = new ArrayList<>();
-        baseHandlerList.add(new FirstHandler());
-        baseHandlerList.add(new SecondHandler());
-        HandlerChain handlerChain = new HandlerChain(baseHandlerList);
         long price = handlerChain.handle(inputDTO);
         return price;
     }
