@@ -1,9 +1,8 @@
 package github.zayn.vm;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import github.zayn.reflect.Age;
+import com.google.common.collect.Lists;
 
 /**
  * @ClassName Test
@@ -14,15 +13,11 @@ import github.zayn.reflect.Age;
 public class Test {
     @SuppressWarnings("checkstyle:MagicNumber")
     public static void main(String[] args) {
-        Age age = new Age();
-        List<Age> list1 = new ArrayList<>();
-        List<Age> list2 = new ArrayList<>();
-        List<Age> list3 = new ArrayList<>();
-        list3.add(age);
-        list1.add(list3.get(0));
-        list2.add(list3.get(0));
-        age.setAge(12);
-        System.out.println(list1);
+        ArrayList<Integer> integers = Lists.newArrayList(259823569, 259606698, 260002045, 262430830, 262678121, 256547195,
+                256548471, 251970368, 259253347);
+        for (Integer i : integers) {
+            long shard = i.hashCode() % 2;
+        }
     }
 
 

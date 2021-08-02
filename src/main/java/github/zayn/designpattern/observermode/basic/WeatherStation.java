@@ -1,4 +1,4 @@
-package github.zayn.designpattern.observermode;
+package github.zayn.designpattern.observermode.basic;
 
 public class WeatherStation {
     public static void main(String[] args) {
