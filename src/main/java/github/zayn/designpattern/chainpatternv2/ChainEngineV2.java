@@ -24,7 +24,6 @@ public class ChainEngineV2 {
         handlerList.add(new FirstHandler());
         handlerList.add(new SecondHandler());
         HandlerChainV2 handlerChainV2 = new HandlerChainV2(handlerList);
-        long price = handlerChainV2.handle(inputDTO);
-        return price;
+        return handlerChainV2.handle(inputDTO);
     }
 }

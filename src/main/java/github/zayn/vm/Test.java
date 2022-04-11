@@ -1,9 +1,5 @@
 package github.zayn.vm;
 
-import java.util.ArrayList;
-
-import com.google.common.collect.Lists;
-
 /**
  * @ClassName Test
  * @DESCRIPTION TODO
@@ -13,10 +9,16 @@ import com.google.common.collect.Lists;
 public class Test {
     @SuppressWarnings("checkstyle:MagicNumber")
     public static void main(String[] args) {
-        ArrayList<Integer> integers = Lists.newArrayList(259823569, 259606698, 260002045, 262430830, 262678121, 256547195,
-                256548471, 251970368, 259253347);
-        for (Integer i : integers) {
-            long shard = i.hashCode() % 2;
+        int i = 1;
+        try {
+            System.out.println("执行try：" + i);
+            i++;
+            System.out.println("执行try结束：" + i);
+        } catch (Exception e) {
+            System.out.println("报错");
+        } finally {
+            i++;
+            System.out.println("执行finally结束：" + i);
         }
     }
 
