@@ -1,6 +1,8 @@
 package github.zayn.reflect;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -45,13 +47,48 @@ public class ReflectDemo {
 
     @SuppressWarnings("checkstyle:MagicNumber")
     public static void main(String[] args) {
+        List<What> dataList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            What what = new What();
+            what.setHeight(i);
+            what.setWeight(i);
+            what.setAge(i);
+            what.setName("name" + i);
+            dataList.add(what);
+        }
+        List<ExcelColumnInfo> excelColumnInfos = new ArrayList<>();
+        ExcelColumnInfo excelColumnInfo1 = new ExcelColumnInfo();
+        excelColumnInfo1.setColumnChineseName("身高");
+        excelColumnInfo1.setColumnEnglishName("height");
+        excelColumnInfos.add(excelColumnInfo1);
+        ExcelColumnInfo excelColumnInfo2 = new ExcelColumnInfo();
+        excelColumnInfo2.setColumnChineseName("体重");
+        excelColumnInfo2.setColumnEnglishName("weight");
+        excelColumnInfos.add(excelColumnInfo2);
+        List<List<String>> lists = buildDynamicData(excelColumnInfos, dataList);
+        System.out.println(lists);
+    }
 
-        How zjy2 = new How();
-        Base base = new Base();
-        base.setName("zhangjiayi1");
-        zjy2.setAge(18);
-        zjy2.setBase(base);
-        Field[] declaredFields = zjy2.getClass().getDeclaredFields();
-        System.out.println(declaredFields);
+    private static List<List<String>> buildDynamicData(List<ExcelColumnInfo> excelColumnInfos,
+            List<?> dataList) {
+        List<List<String>> rowDataList = new ArrayList<>();
+        for (Object data : dataList) {
+            List<String> eachRowData = new ArrayList<>();
+            for (ExcelColumnInfo excelColumnInfo : excelColumnInfos) {
+                try {
+                    Field field = data.getClass().getDeclaredField(excelColumnInfo.getColumnEnglishName());
+                    field.setAccessible(true);
+                    if (field.getType() == Long.class || field.getType() == Integer.class) {
+                        eachRowData.add(String.valueOf(field.get(data)));
+                    } else {
+                        eachRowData.add((String) (field.get(data)));
+                    }
+                } catch (Exception e) {
+                    System.out.println("err!");
+                }
+            }
+            rowDataList.add(eachRowData);
+        }
+        return rowDataList;
     }
 }
