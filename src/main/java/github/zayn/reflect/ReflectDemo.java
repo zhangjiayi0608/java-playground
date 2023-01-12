@@ -65,6 +65,10 @@ public class ReflectDemo {
         excelColumnInfo2.setColumnChineseName("体重");
         excelColumnInfo2.setColumnEnglishName("weight");
         excelColumnInfos.add(excelColumnInfo2);
+        ExcelColumnInfo excelColumnInfo3 = new ExcelColumnInfo();
+        excelColumnInfo3.setColumnChineseName("名字");
+        excelColumnInfo3.setColumnEnglishName("name");
+        excelColumnInfos.add(excelColumnInfo3);
         List<List<String>> lists = buildDynamicData(excelColumnInfos, dataList);
         System.out.println(lists);
     }
@@ -76,7 +80,7 @@ public class ReflectDemo {
             List<String> eachRowData = new ArrayList<>();
             for (ExcelColumnInfo excelColumnInfo : excelColumnInfos) {
                 try {
-                    Field field = data.getClass().getDeclaredField(excelColumnInfo.getColumnEnglishName());
+                    Field field = getField(excelColumnInfo.getColumnEnglishName(), data.getClass());
                     field.setAccessible(true);
                     if (field.getType() == Long.class || field.getType() == Integer.class) {
                         eachRowData.add(String.valueOf(field.get(data)));
@@ -90,5 +94,24 @@ public class ReflectDemo {
             rowDataList.add(eachRowData);
         }
         return rowDataList;
+    }
+
+    public static Field getField(String tar, Class clazz) {
+        String error = null;
+        Field field = null;
+        while (clazz != null) {
+            try {
+                field = clazz.getDeclaredField(tar);
+                error = null;
+                break;
+            } catch (Exception e) {
+                clazz = clazz.getSuperclass();
+                error = e.getMessage();
+            }
+        }
+        if (error != null || field == null) {
+            throw new RuntimeException("无法获取源字段:" + tar);
+        }
+        return field;
     }
 }
