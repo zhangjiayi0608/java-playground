@@ -9,17 +9,17 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author zhangjiayi
  */
 public class MyThreadPoolExecutor implements Executor {
-    private String name;
-    private int coreSize;
-    private int maxSize;
-    private BlockingQueue<Runnable> blockingQueue;
-    private RejectPolicy rejectPolicy;
+    private final String name;
+    private final int coreSize;
+    private final int maxSize;
+    private final BlockingQueue<Runnable> blockingQueue;
+    private final RejectPolicy rejectPolicy;
 
 
     //正在运行线程数
-    private AtomicInteger runningCount = new AtomicInteger(0);
+    private final AtomicInteger runningCount = new AtomicInteger(0);
 
-    private AtomicInteger sequence = new AtomicInteger(0);
+    private final AtomicInteger sequence = new AtomicInteger(0);
 
     public MyThreadPoolExecutor(String name, int coreSize, int maxSize, BlockingQueue blockingQueue, RejectPolicy rejectPolicy) {
         this.name = name;

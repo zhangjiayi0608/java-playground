@@ -7,7 +7,7 @@ public class MyLock {
 
     @SuppressWarnings({"checkstyle:EmptyBlock", "checkstyle:EmptyForIteratorPad"})
     public static void main(String[] args) {
-        for (; ; ) {
+        while (true) {
             int current = i.get();
             int target = 4;
             if (!i.compareAndSet(current, target)) {
