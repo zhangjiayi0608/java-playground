@@ -18,7 +18,6 @@ public class UnSafeTest {
 
     static {
         try {
-
             Field field = Unsafe.class.getDeclaredField("theUnsafe");
             field.setAccessible(true);
             U = (Unsafe) field.get(null);

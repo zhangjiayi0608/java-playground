@@ -2,6 +2,7 @@ package github.zayn.reflect;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,35 +47,92 @@ public class ReflectDemo {
     }
 
     @SuppressWarnings("checkstyle:MagicNumber")
-    public static void main(String[] args) {
-        List<What> dataList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            What what = new What();
-            what.setHeight(i);
-            what.setWeight(i);
-            what.setAge(i);
-            what.setName("name" + i);
-            dataList.add(what);
-        }
-        List<ExcelColumnInfo> excelColumnInfos = new ArrayList<>();
-        ExcelColumnInfo excelColumnInfo1 = new ExcelColumnInfo();
-        excelColumnInfo1.setColumnChineseName("身高");
-        excelColumnInfo1.setColumnEnglishName("height");
-        excelColumnInfos.add(excelColumnInfo1);
-        ExcelColumnInfo excelColumnInfo2 = new ExcelColumnInfo();
-        excelColumnInfo2.setColumnChineseName("体重");
-        excelColumnInfo2.setColumnEnglishName("weight");
-        excelColumnInfos.add(excelColumnInfo2);
-        ExcelColumnInfo excelColumnInfo3 = new ExcelColumnInfo();
-        excelColumnInfo3.setColumnChineseName("名字");
-        excelColumnInfo3.setColumnEnglishName("name");
-        excelColumnInfos.add(excelColumnInfo3);
-        List<List<String>> lists = buildDynamicData(excelColumnInfos, dataList);
-        System.out.println(lists);
+//    public static void main(String[] args) {
+//        List<What> dataList = new ArrayList<>();
+//        for (int i = 0; i < 10; i++) {
+//            What what = new What();
+//            what.setHeight(i);
+//            what.setWeight(i);
+//            what.setAge(i);
+//            what.setName("name" + i);
+//            dataList.add(what);
+//        }
+//        List<ExcelColumnInfo> excelColumnInfos = new ArrayList<>();
+//        ExcelColumnInfo excelColumnInfo1 = new ExcelColumnInfo();
+//        excelColumnInfo1.setColumnChineseName("身高");
+//        excelColumnInfo1.setColumnEnglishName("height");
+//        excelColumnInfos.add(excelColumnInfo1);
+//        ExcelColumnInfo excelColumnInfo2 = new ExcelColumnInfo();
+//        excelColumnInfo2.setColumnChineseName("体重");
+//        excelColumnInfo2.setColumnEnglishName("weight");
+//        excelColumnInfos.add(excelColumnInfo2);
+//        ExcelColumnInfo excelColumnInfo3 = new ExcelColumnInfo();
+//        excelColumnInfo3.setColumnChineseName("名字");
+//        excelColumnInfo3.setColumnEnglishName("name");
+//        excelColumnInfos.add(excelColumnInfo3);
+//        List<List<String>> lists = buildDynamicData(excelColumnInfos, dataList);
+//        System.out.println(lists);
+//    }
+
+
+    public static void main(String[] args) throws IllegalAccessException {
+        What what = new What();
+        what.setHeight(186);
+        what.setWeight(100);
+        what.setAge(18);
+        what.setName("zhangjiayi");
+        List<String> strings = buildParams(what);
+
+        String str = "${duration}天直播次数满${target}次，单个时长满${costLiveDuration}小时，单次直播花费满${costLiveCost}元";
+        ReceiveEventNdimCondition4LiveInfrastructure condition =
+                new ReceiveEventNdimCondition4LiveInfrastructure();
+        condition.setCostLiveCost(10L);
+        condition.setCostLiveDuration(100D);
+        String s = temTaskDeal(str, condition);
+        System.out.println(s);
     }
 
-    private static List<List<String>> buildDynamicData(List<ExcelColumnInfo> excelColumnInfos,
-            List<?> dataList) {
+    public static String temTaskDeal(String contextValue, ReceiveEventNdimBaseCondition condition) {
+        try {
+            contextValue = contextValue
+                    .replace("${duration}", "1")
+                    .replace("${target}", "5");
+            Map<String, String> conditionMap = getCondition(condition);
+            for (String name : conditionMap.keySet()) {
+                String targetStr = "${" + name + "}";
+                contextValue = contextValue.replace(targetStr, conditionMap.get(name));
+            }
+            return contextValue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return contextValue;
+    }
+
+    private static Map<String, String> getCondition(ReceiveEventNdimBaseCondition condition) throws IllegalAccessException {
+        Map<String, String> conditionMap = new HashMap<>();
+        Field[] fields = condition.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            Object o = field.get(condition);
+            conditionMap.put(field.getName(), o.toString());
+        }
+        return conditionMap;
+    }
+
+    private static List<String> buildParams(Base condition) throws IllegalAccessException {
+        List<String> strings = new ArrayList<>();
+        Field[] fields = condition.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            strings.add(field.getName());
+        }
+        return strings;
+    }
+
+    private static List<List<String>> buildDynamicData
+            (List<ExcelColumnInfo> excelColumnInfos,
+                    List<?> dataList) {
         List<List<String>> rowDataList = new ArrayList<>();
         for (Object data : dataList) {
             List<String> eachRowData = new ArrayList<>();
