@@ -1,5 +1,7 @@
 package github.zayn.reflect;
 
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -12,4 +14,7 @@ import lombok.Data;
 public class What extends Age {
     private Integer height;
     private Integer weight;
+    private List<Long> zhangBig;
+
+    private Integer expoPv30d;
 }

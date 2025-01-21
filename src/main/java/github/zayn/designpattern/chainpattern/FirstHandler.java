@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @Date 2021/7/29 3:22 下午
  **/
 @Component
-public class FirstHandler implements BaseHandler {
+public class FirstHandler extends BaseHandler {
     @Override
     public long calcPrice(InputDTO inputDTO) {
         System.out.println("do something in firstHandler");

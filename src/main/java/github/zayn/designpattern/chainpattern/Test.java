@@ -44,7 +44,7 @@ public class Test {
                 promotionTypes.add("SECOND");
                 inputDTO.setPromotionTypes(promotionTypes);
                 long l = chainEngine.execute(inputDTO);
-                System.out.println("i is " + i + "price is " + l);
+                System.out.println("i is " + i + " price is " + l);
             }
         }, pool);
     }

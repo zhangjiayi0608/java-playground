@@ -8,8 +8,12 @@ import org.springframework.core.Ordered;
  * @Author zhangjiayi07
  * @Date 2021/7/29 3:15 下午
  **/
-public interface BaseHandler extends Ordered {
-    long calcPrice(InputDTO inputDTO);
+public abstract class BaseHandler implements Ordered {
+    public long calcPrice(InputDTO inputDTO) {
+        return 0;
+    }
 
-    boolean check(InputDTO inputDTO);
+    public boolean check(InputDTO inputDTO) {
+        return false;
+    }
 }
